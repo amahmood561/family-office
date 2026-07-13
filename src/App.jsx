@@ -136,12 +136,23 @@ const pageDetails = {
       ['Open Capital Calls', '$3.2M'],
       ['Managers', '27'],
     ],
+    workflows: [
+      ['Capital calls', '3 awaiting approval', 'Fund notices routed to investment committee'],
+      ['Manager packets', '11 received', 'Monthly hedge fund and custody reports indexed'],
+      ['Rebalancing', '2 trades queued', 'Public markets drift inside policy bands'],
+    ],
+    focus: [
+      'Approve Horizon Fund IV capital call before Jul 18.',
+      'Review venture marks before quarterly family meeting.',
+      'Confirm real estate appraisal timing with property manager.',
+    ],
     rows: [
       ['Public Markets', '$92.5M', '+5.8%', 'Rebalanced'],
       ['Private Equity', '$61.2M', '+11.3%', '2 capital calls'],
       ['Real Estate', '$54.8M', '+4.1%', 'Appraisal pending'],
       ['Venture Capital', '$31.8M', '+18.6%', 'Quarterly marks due'],
       ['Hedge Funds', '$26.2M', '+3.2%', 'Monthly packet ready'],
+      ['Cash Accounts', '$18.5M', '+0.4%', 'Treasury available'],
     ],
   },
   entities: {
@@ -154,12 +165,23 @@ const pageDetails = {
       ['LLCs', '14'],
       ['Annual Reviews', '6'],
     ],
+    workflows: [
+      ['Ownership charts', '31 mapped', 'Trust, LLC, LP, and foundation relationships tracked'],
+      ['Registered agents', '4 notices', 'Entity notices linked to document archive'],
+      ['Estate plan', '2 drafts', 'Counsel review scheduled for amendments'],
+    ],
+    focus: [
+      'Finish trust annual minutes package.',
+      'Validate registered agent status for Delaware entities.',
+      'Prepare ownership chart export for counsel.',
+    ],
     rows: [
       ['Mahmood Dynasty Trust', 'Trust', 'Legal review', 'Minutes due Jul 22'],
       ['Aspen Holdings LLC', 'LLC', 'Good standing', 'RA notice attached'],
       ['AM Family Foundation', 'Foundation', 'Active', 'Grant review pending'],
       ['Northstar Partners LP', 'Partnership', 'Active', 'K-1 expected'],
       ['Harbor Real Estate Co.', 'Holding Co.', 'Active', 'Insurance renewal'],
+      ['Lakeview Aviation LLC', 'LLC', 'Active', 'Policy renewal linked'],
     ],
   },
   finance: {
@@ -172,12 +194,23 @@ const pageDetails = {
       ['AR Expected', '$560K'],
       ['Runway', '9.7 mo'],
     ],
+    workflows: [
+      ['Bill pay', '$860K pending', 'Vendor approvals staged by entity and threshold'],
+      ['Treasury forecast', '13 weeks', 'Cash runway and liquidity needs refreshed daily'],
+      ['Accounting close', '82% complete', 'QuickBooks and NetSuite workstreams aligned'],
+    ],
+    focus: [
+      'Replenish bill pay reserve after payroll batch clears.',
+      'Confirm AP approval for aircraft and household invoices.',
+      'Send monthly reporting packet to principals.',
+    ],
     rows: [
       ['Operating Treasury', 'JPM Private Bank', '$7.2M', 'Healthy'],
       ['Bill Pay Reserve', 'First Republic', '$1.8M', 'Refill'],
       ['Opportunity Cash', 'Goldman Sachs', '$9.5M', 'Deployable'],
       ['Vendor Payables', 'AP / AR', '$860K', 'Approval queue'],
       ['Forecast Model', 'Treasury', '13 weeks', 'Updated today'],
+      ['Monthly Close', 'Accounting', '82%', 'Controller review'],
     ],
   },
   documents: {
@@ -190,12 +223,23 @@ const pageDetails = {
       ['Tax Files', '94'],
       ['Legal Files', '212'],
     ],
+    workflows: [
+      ['Ingestion', '36 this week', 'Statements, legal PDFs, tax files, and contracts'],
+      ['Review queue', '18 open', 'Owner and status attached to every document'],
+      ['Archive hygiene', '7 duplicates', 'Cleanup queue ready for operations'],
+    ],
+    focus: [
+      'Review June custody packet before family meeting.',
+      'Link trust amendment draft to entity record.',
+      'Complete K-1 intake checklist for CPA handoff.',
+    ],
     rows: [
       ['June consolidated custody packet', 'Statements', 'Finance', 'Needs Review'],
       ['Dynasty trust amendment draft', 'Trust Docs', 'Legal', 'Counsel Review'],
       ['K-1 intake tracker', 'Tax Documents', 'Tax', '72% Complete'],
       ['Household staff agreements', 'Contracts', 'Operations', 'Renewal'],
       ['Aircraft insurance binder', 'Insurance', 'Lifestyle', 'Renewal'],
+      ['Foundation grant letters', 'Legal Files', 'Foundation', 'Filed'],
     ],
   },
   compliance: {
@@ -208,12 +252,23 @@ const pageDetails = {
       ['Filings Due', '9'],
       ['K-1s Open', '12'],
     ],
+    workflows: [
+      ['Tax calendar', '9 deadlines', 'Estimated taxes, K-1s, returns, and extensions'],
+      ['Entity filings', '6 open', 'Annual reports and registered agent actions'],
+      ['Audit trail', '214 events', 'Approval history preserved by workflow'],
+    ],
+    focus: [
+      'Resolve Q2 estimated tax package by Jul 15.',
+      'Chase remaining K-1s for private fund entities.',
+      'Review high-priority annual report filings.',
+    ],
     rows: [
       ['Q2 estimated tax package', 'Tax', 'High', 'Due Jul 15'],
       ['Registered agent notice', 'Compliance', 'Medium', 'Attached'],
       ['Annual report batch', 'Entity Filings', 'High', '6 remaining'],
       ['K-1 collection', 'Tax', 'Medium', '72% complete'],
       ['Approval history review', 'Audit Trail', 'Low', 'Ready'],
+      ['Policy exception log', 'Compliance', 'Medium', 'Counsel review'],
     ],
   },
   tasks: {
@@ -226,12 +281,23 @@ const pageDetails = {
       ['Travel Items', '5'],
       ['Staff Actions', '8'],
     ],
+    workflows: [
+      ['Concierge requests', '12 active', 'Travel, events, reservations, and family logistics'],
+      ['Household staff', '8 actions', 'Agreements, payroll notes, scheduling, and approvals'],
+      ['Security', '3 reviews', 'Vendor checks and property access workflows'],
+    ],
+    focus: [
+      'Finalize aircraft insurance renewal.',
+      'Confirm family calendar sync for travel week.',
+      'Complete security vendor review before event planning.',
+    ],
     rows: [
       ['Aircraft insurance renewal', 'Lifestyle', 'Medium', 'Due Jul 29'],
       ['Capital call approval', 'Investments', 'High', 'Due Jul 18'],
       ['Family calendar sync', 'Operations', 'Medium', 'Updated'],
       ['Household staff agreements', 'Operations', 'Medium', 'Renewal'],
       ['Security vendor review', 'Lifestyle', 'High', 'In progress'],
+      ['Concierge travel packet', 'Travel', 'Medium', 'Draft ready'],
     ],
   },
 }
@@ -537,13 +603,19 @@ function DetailPage({ page, setActivePage }) {
   return (
     <section className="detail-view">
       <header className="detail-hero">
-        <button type="button" onClick={() => setActivePage('dashboard')}>
-          <LayoutDashboard size={17} />
-          Dashboard
-        </button>
-        <p className="eyebrow">{page.eyebrow}</p>
-        <h1>{page.title}</h1>
-        <p>{page.summary}</p>
+        <div>
+          <button type="button" onClick={() => setActivePage('dashboard')}>
+            <LayoutDashboard size={17} />
+            Dashboard
+          </button>
+          <p className="eyebrow">{page.eyebrow}</p>
+          <h1>{page.title}</h1>
+          <p>{page.summary}</p>
+        </div>
+        <div className="hero-status">
+          <CheckCircle2 size={18} />
+          <span>Demo workspace ready</span>
+        </div>
       </header>
 
       <section className="kpi-grid detail-kpis" aria-label={`${page.title} metrics`}>
@@ -554,6 +626,46 @@ function DetailPage({ page, setActivePage }) {
             <small className="neutral">Current demo view</small>
           </article>
         ))}
+      </section>
+
+      <section className="detail-main-grid">
+        <article className="panel workflow-panel">
+          <div className="panel-heading">
+            <div>
+              <p className="eyebrow">Workflow</p>
+              <h2>Operating lanes</h2>
+            </div>
+            <ListChecks size={20} />
+          </div>
+
+          <div className="workflow-grid">
+            {page.workflows.map(([title, status, detail]) => (
+              <div className="workflow-card" key={title}>
+                <strong>{title}</strong>
+                <span>{status}</span>
+                <p>{detail}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article className="panel priority-panel">
+          <div className="panel-heading">
+            <div>
+              <p className="eyebrow">Priorities</p>
+              <h2>This week</h2>
+            </div>
+            <CalendarClock size={20} />
+          </div>
+          <div className="priority-list">
+            {page.focus.map((item, index) => (
+              <div key={item}>
+                <span>{index + 1}</span>
+                <p>{item}</p>
+              </div>
+            ))}
+          </div>
+        </article>
       </section>
 
       <article className="panel detail-table">
@@ -567,13 +679,14 @@ function DetailPage({ page, setActivePage }) {
 
         <div className="record-list">
           {page.rows.map((row) => (
-            <div className="record-row" key={row.join('-')}>
+            <button className="record-row" key={row.join('-')} type="button">
               {row.map((cell, index) => (
                 <span key={`${cell}-${index}`} className={index === 0 ? 'record-title' : ''}>
                   {cell}
                 </span>
               ))}
-            </div>
+              <ChevronRight size={16} />
+            </button>
           ))}
         </div>
       </article>
