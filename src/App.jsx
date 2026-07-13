@@ -18,7 +18,6 @@ import {
   Landmark,
   LayoutDashboard,
   ListChecks,
-  LockKeyhole,
   PieChart,
   Plane,
   ReceiptText,
@@ -105,6 +104,138 @@ const iconMap = {
   compliance: ShieldCheck,
 }
 
+const navItems = [
+  { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { key: 'investments', label: 'Investments', icon: PieChart },
+  { key: 'entities', label: 'Entities', icon: Building2 },
+  { key: 'finance', label: 'Finance', icon: WalletCards },
+  { key: 'documents', label: 'Documents', icon: FileArchive },
+  { key: 'compliance', label: 'Compliance', icon: ClipboardCheck },
+  { key: 'tasks', label: 'Tasks', icon: ListChecks },
+]
+
+const modulePageMap = {
+  Investments: 'investments',
+  Finance: 'finance',
+  Operations: 'tasks',
+  'Entity Management': 'entities',
+  Tax: 'compliance',
+  Lifestyle: 'tasks',
+  Documents: 'documents',
+  Compliance: 'compliance',
+}
+
+const pageDetails = {
+  investments: {
+    eyebrow: 'Investments',
+    title: 'Portfolio management',
+    summary: 'Monitor public markets, alternatives, capital calls, real estate, venture, and cash exposure.',
+    metrics: [
+      ['Total AUM', '$284.6M'],
+      ['YTD Return', '+8.4%'],
+      ['Open Capital Calls', '$3.2M'],
+      ['Managers', '27'],
+    ],
+    rows: [
+      ['Public Markets', '$92.5M', '+5.8%', 'Rebalanced'],
+      ['Private Equity', '$61.2M', '+11.3%', '2 capital calls'],
+      ['Real Estate', '$54.8M', '+4.1%', 'Appraisal pending'],
+      ['Venture Capital', '$31.8M', '+18.6%', 'Quarterly marks due'],
+      ['Hedge Funds', '$26.2M', '+3.2%', 'Monthly packet ready'],
+    ],
+  },
+  entities: {
+    eyebrow: 'Entity management',
+    title: 'Trusts, LLCs, partnerships, and foundations',
+    summary: 'Track entity status, registered agents, ownership records, estate documents, and annual actions.',
+    metrics: [
+      ['Active Entities', '31'],
+      ['Trusts', '8'],
+      ['LLCs', '14'],
+      ['Annual Reviews', '6'],
+    ],
+    rows: [
+      ['Mahmood Dynasty Trust', 'Trust', 'Legal review', 'Minutes due Jul 22'],
+      ['Aspen Holdings LLC', 'LLC', 'Good standing', 'RA notice attached'],
+      ['AM Family Foundation', 'Foundation', 'Active', 'Grant review pending'],
+      ['Northstar Partners LP', 'Partnership', 'Active', 'K-1 expected'],
+      ['Harbor Real Estate Co.', 'Holding Co.', 'Active', 'Insurance renewal'],
+    ],
+  },
+  finance: {
+    eyebrow: 'Finance',
+    title: 'Accounting, treasury, AP / AR, and forecasting',
+    summary: 'Support QuickBooks, NetSuite, banking, bill pay, treasury, cash forecasting, and reporting workflows.',
+    metrics: [
+      ['Cash', '$18.5M'],
+      ['AP Queue', '$860K'],
+      ['AR Expected', '$560K'],
+      ['Runway', '9.7 mo'],
+    ],
+    rows: [
+      ['Operating Treasury', 'JPM Private Bank', '$7.2M', 'Healthy'],
+      ['Bill Pay Reserve', 'First Republic', '$1.8M', 'Refill'],
+      ['Opportunity Cash', 'Goldman Sachs', '$9.5M', 'Deployable'],
+      ['Vendor Payables', 'AP / AR', '$860K', 'Approval queue'],
+      ['Forecast Model', 'Treasury', '13 weeks', 'Updated today'],
+    ],
+  },
+  documents: {
+    eyebrow: 'Documents',
+    title: 'Contracts, statements, tax files, and legal archive',
+    summary: 'Centralize document review across trust docs, insurance, statements, contracts, and tax packages.',
+    metrics: [
+      ['Indexed Docs', '1,284'],
+      ['Needs Review', '18'],
+      ['Tax Files', '94'],
+      ['Legal Files', '212'],
+    ],
+    rows: [
+      ['June consolidated custody packet', 'Statements', 'Finance', 'Needs Review'],
+      ['Dynasty trust amendment draft', 'Trust Docs', 'Legal', 'Counsel Review'],
+      ['K-1 intake tracker', 'Tax Documents', 'Tax', '72% Complete'],
+      ['Household staff agreements', 'Contracts', 'Operations', 'Renewal'],
+      ['Aircraft insurance binder', 'Insurance', 'Lifestyle', 'Renewal'],
+    ],
+  },
+  compliance: {
+    eyebrow: 'Compliance and tax',
+    title: 'Filings, deadlines, approvals, and audit trail',
+    summary: 'Track tax returns, K-1s, CPA handoffs, entity filings, annual reports, and approval history.',
+    metrics: [
+      ['Risk Items', '17'],
+      ['High Priority', '4'],
+      ['Filings Due', '9'],
+      ['K-1s Open', '12'],
+    ],
+    rows: [
+      ['Q2 estimated tax package', 'Tax', 'High', 'Due Jul 15'],
+      ['Registered agent notice', 'Compliance', 'Medium', 'Attached'],
+      ['Annual report batch', 'Entity Filings', 'High', '6 remaining'],
+      ['K-1 collection', 'Tax', 'Medium', '72% complete'],
+      ['Approval history review', 'Audit Trail', 'Low', 'Ready'],
+    ],
+  },
+  tasks: {
+    eyebrow: 'Operations',
+    title: 'Tasks, lifestyle, workflows, and household operations',
+    summary: 'Coordinate CRM, email, calendar, tasks, workflow automation, travel, events, staff, and security.',
+    metrics: [
+      ['Open Tasks', '42'],
+      ['Due This Week', '11'],
+      ['Travel Items', '5'],
+      ['Staff Actions', '8'],
+    ],
+    rows: [
+      ['Aircraft insurance renewal', 'Lifestyle', 'Medium', 'Due Jul 29'],
+      ['Capital call approval', 'Investments', 'High', 'Due Jul 18'],
+      ['Family calendar sync', 'Operations', 'Medium', 'Updated'],
+      ['Household staff agreements', 'Operations', 'Medium', 'Renewal'],
+      ['Security vendor review', 'Lifestyle', 'High', 'In progress'],
+    ],
+  },
+}
+
 function formatValue(value) {
   return typeof value === 'number' && value > 1000 ? currency.format(value) : value
 }
@@ -114,6 +245,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [query, setQuery] = useState('')
+  const [activePage, setActivePage] = useState('dashboard')
 
   useEffect(() => {
     let mounted = true
@@ -164,33 +296,30 @@ function Dashboard() {
         </div>
 
         <nav className="nav-list" aria-label="Primary">
-          {[
-            ['Dashboard', LayoutDashboard],
-            ['Investments', PieChart],
-            ['Entities', Building2],
-            ['Finance', WalletCards],
-            ['Documents', FileArchive],
-            ['Compliance', ClipboardCheck],
-            ['Tasks', ListChecks],
-          ].map(([label, Icon], index) => (
-            <button className={index === 0 ? 'active' : ''} type="button" key={label}>
+          {navItems.map(({ key, label, icon: Icon }) => (
+            <button
+              className={activePage === key ? 'active' : ''}
+              type="button"
+              key={key}
+              onClick={() => setActivePage(key)}
+            >
               <Icon size={18} />
               <span>{label}</span>
             </button>
           ))}
         </nav>
 
-        <section className="security-panel">
+        {/* <section className="security-panel">
           <LockKeyhole size={18} />
           <div>
             <strong>Private infrastructure</strong>
             <span>Local React + Postgres-ready API</span>
           </div>
-        </section>
+        </section> */}
       </aside>
 
       <section className="workspace">
-        <header className="topbar">
+        {activePage === 'dashboard' ? <header className="topbar">
           <div>
             <p className="eyebrow">Executive dashboard</p>
             <h1>Family office command center</h1>
@@ -210,7 +339,7 @@ function Dashboard() {
               {loading ? 'Loading' : data.connection === 'postgres' ? 'Postgres live' : 'Seed data'}
             </span>
           </div>
-        </header>
+        </header> : null}
 
         {error ? (
           <div className="notice">
@@ -219,6 +348,8 @@ function Dashboard() {
           </div>
         ) : null}
 
+        {activePage === 'dashboard' ? (
+          <>
         <section className="kpi-grid" aria-label="Executive KPIs">
           {data.kpis.map((item) => {
             const DeltaIcon = item.delta >= 0 ? ArrowUpRight : ArrowDownRight
@@ -297,7 +428,12 @@ function Dashboard() {
           {filteredModules.map((item) => {
             const Icon = iconMap[item.icon] || BriefcaseBusiness
             return (
-              <article className="module-card" key={item.name}>
+              <button
+                className="module-card"
+                key={item.name}
+                type="button"
+                onClick={() => setActivePage(modulePageMap[item.name] || 'dashboard')}
+              >
                 <div className="module-icon">
                   <Icon size={19} />
                 </div>
@@ -307,7 +443,7 @@ function Dashboard() {
                 </div>
                 <strong>{item.count}</strong>
                 <ChevronRight size={17} />
-              </article>
+              </button>
             )
           })}
         </section>
@@ -388,8 +524,60 @@ function Dashboard() {
             </p>
           </article>
         </section>
+          </>
+        ) : (
+          <DetailPage page={pageDetails[activePage]} setActivePage={setActivePage} />
+        )}
       </section>
     </main>
+  )
+}
+
+function DetailPage({ page, setActivePage }) {
+  return (
+    <section className="detail-view">
+      <header className="detail-hero">
+        <button type="button" onClick={() => setActivePage('dashboard')}>
+          <LayoutDashboard size={17} />
+          Dashboard
+        </button>
+        <p className="eyebrow">{page.eyebrow}</p>
+        <h1>{page.title}</h1>
+        <p>{page.summary}</p>
+      </header>
+
+      <section className="kpi-grid detail-kpis" aria-label={`${page.title} metrics`}>
+        {page.metrics.map(([label, value]) => (
+          <article className="kpi-card" key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+            <small className="neutral">Current demo view</small>
+          </article>
+        ))}
+      </section>
+
+      <article className="panel detail-table">
+        <div className="panel-heading">
+          <div>
+            <p className="eyebrow">Workspace</p>
+            <h2>{page.title} records</h2>
+          </div>
+          <ClipboardCheck size={20} />
+        </div>
+
+        <div className="record-list">
+          {page.rows.map((row) => (
+            <div className="record-row" key={row.join('-')}>
+              {row.map((cell, index) => (
+                <span key={`${cell}-${index}`} className={index === 0 ? 'record-title' : ''}>
+                  {cell}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </article>
+    </section>
   )
 }
 
