@@ -1,0 +1,51 @@
+export const dashboardSeed = {
+  asOf: new Date().toISOString(),
+  connection: 'seed',
+  kpis: [
+    { label: 'Net Worth', value: 284600000, delta: 0.028, tone: 'positive' },
+    { label: 'Cash Position', value: 18500000, delta: -0.041, tone: 'warning' },
+    { label: 'Monthly AP / AR', value: 1420000, delta: 0.012, tone: 'neutral' },
+    { label: 'Open Risk Items', value: 17, delta: -0.105, tone: 'positive' },
+  ],
+  allocation: [
+    { label: 'Public Markets', value: 92500000, color: '#2563eb' },
+    { label: 'Private Equity', value: 61200000, color: '#0f766e' },
+    { label: 'Real Estate', value: 54800000, color: '#b45309' },
+    { label: 'Venture', value: 31800000, color: '#7c3aed' },
+    { label: 'Hedge Funds', value: 26200000, color: '#be123c' },
+    { label: 'Cash', value: 18500000, color: '#475569' },
+  ],
+  modules: [
+    { name: 'Investments', status: 'Live', count: 86, icon: 'portfolio' },
+    { name: 'Finance', status: 'Postgres Ready', count: 124, icon: 'finance' },
+    { name: 'Operations', status: 'Buildout', count: 42, icon: 'operations' },
+    { name: 'Entity Management', status: 'Live', count: 31, icon: 'entities' },
+    { name: 'Tax', status: 'Deadline Watch', count: 18, icon: 'tax' },
+    { name: 'Lifestyle', status: 'Buildout', count: 14, icon: 'lifestyle' },
+    { name: 'Documents', status: 'Indexed', count: 1284, icon: 'documents' },
+    { name: 'Compliance', status: 'Attention', count: 9, icon: 'compliance' },
+  ],
+  cash: [
+    { account: 'Operating Treasury', institution: 'JPM Private Bank', balance: 7200000, runway: '11 mo', status: 'Healthy' },
+    { account: 'Bill Pay Reserve', institution: 'First Republic', balance: 1800000, runway: '43 days', status: 'Refill' },
+    { account: 'Opportunity Cash', institution: 'Goldman Sachs', balance: 9500000, runway: 'Flexible', status: 'Deployable' },
+  ],
+  upcoming: [
+    { date: 'Jul 15', title: 'Q2 estimated tax package', owner: 'Tax', priority: 'High' },
+    { date: 'Jul 18', title: 'Capital call approval: Horizon Fund IV', owner: 'Investments', priority: 'High' },
+    { date: 'Jul 22', title: 'Trust annual minutes review', owner: 'Legal', priority: 'Medium' },
+    { date: 'Jul 29', title: 'Aircraft insurance renewal', owner: 'Lifestyle', priority: 'Medium' },
+  ],
+  documents: [
+    { type: 'Statements', name: 'June consolidated custody packet', owner: 'Finance', status: 'Needs Review' },
+    { type: 'Trust Docs', name: 'Dynasty trust amendment draft', owner: 'Legal', status: 'Counsel Review' },
+    { type: 'Tax Documents', name: 'K-1 intake tracker', owner: 'Tax', status: '72% Complete' },
+    { type: 'Contracts', name: 'Household staff agreements', owner: 'Operations', status: 'Renewal' },
+  ],
+  activity: [
+    { event: 'Capital call routed for approval', source: 'Private Equity', time: '15m ago' },
+    { event: 'Cash forecast refreshed from treasury ledger', source: 'Finance', time: '42m ago' },
+    { event: 'Registered agent notice attached to Aspen LLC', source: 'Compliance', time: '2h ago' },
+    { event: 'New aircraft itinerary added to family calendar', source: 'Lifestyle', time: '4h ago' },
+  ],
+}
